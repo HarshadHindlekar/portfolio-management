@@ -18,6 +18,7 @@ export default function DrawdownChart({ data }: Props) {
     const width = 720;
     const height = 180;
     const margin = { top: 10, right: 20, bottom: 30, left: 40 };
+    const innerWidth = width - margin.left - margin.right;
 
     svg.selectAll("*").remove();
     svg.attr("viewBox", `0 0 ${width} ${height}`);
@@ -51,26 +52,36 @@ export default function DrawdownChart({ data }: Props) {
     svg
       .append("path")
       .datum(parsed as any)
-      .attr("fill", "#fee2e2")
+      .attr("fill", "#fecaca")
       .attr("stroke", "#f97373")
-      .attr("stroke-width", 1)
+      .attr("stroke-width", 1.5)
       .attr("d", area as any);
 
     const xAxis = d3.axisBottom(x).ticks(6);
     const yAxis = d3
       .axisLeft(y)
       .ticks(4)
+      .tickSize(-innerWidth)
       .tickFormat((d) => `${d as number}%`);
 
-    svg
+    const xAxisGroup = svg
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(xAxis as any);
 
-    svg
+    const yAxisGroup = svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(yAxis as any);
+
+    xAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
+    yAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
+
+    xAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
+    yAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
+
+    xAxisGroup.selectAll("line").attr("stroke", "#e5e7eb");
+    yAxisGroup.selectAll("line").attr("stroke", "#e5e7eb").attr("stroke-opacity", 0.6);
   }, [data]);
 
   return (

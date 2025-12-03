@@ -18,6 +18,7 @@ export default function EquityCurveChart({ data }: Props) {
     const width = 720;
     const height = 260;
     const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    const innerWidth = width - margin.left - margin.right;
 
     svg.selectAll("*").remove();
     svg.attr("viewBox", `0 0 ${width} ${height}`);
@@ -61,7 +62,9 @@ export default function EquityCurveChart({ data }: Props) {
       .datum(benchmark as any)
       .attr("fill", "none")
       .attr("stroke", "#16a34a")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 2.2)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
       .attr("d", line as any);
 
     svg
@@ -69,21 +72,32 @@ export default function EquityCurveChart({ data }: Props) {
       .datum(parsed as any)
       .attr("fill", "none")
       .attr("stroke", "#22c55e")
-      .attr("stroke-width", 2)
+      .attr("stroke-width", 2.6)
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-linecap", "round")
       .attr("d", line as any);
 
     const xAxis = d3.axisBottom(x).ticks(6);
-    const yAxis = d3.axisLeft(y).ticks(5);
+    const yAxis = d3.axisLeft(y).ticks(5).tickSize(-innerWidth);
 
-    svg
+    const xAxisGroup = svg
       .append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(xAxis as any);
 
-    svg
+    const yAxisGroup = svg
       .append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(yAxis as any);
+
+    xAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
+    yAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
+
+    xAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
+    yAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
+
+    xAxisGroup.selectAll("line").attr("stroke", "#e5e7eb");
+    yAxisGroup.selectAll("line").attr("stroke", "#e5e7eb").attr("stroke-opacity", 0.6);
   }, [data]);
 
   return (
