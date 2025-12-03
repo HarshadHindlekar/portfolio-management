@@ -69,45 +69,51 @@ export default function PortfoliosPage() {
   }, [equityCurve]);
 
   return (
-    <div className="mx-auto max-w-6xl px-8 py-8">
-      <PageHeader title="Trailing Returns" />
+    <div className="mx-auto max-w-6xl px-6 py-8 lg:px-10 lg:py-10 bg-gray-50">
+      <PageHeader title="Portfolios" />
       <TrailingReturnsCard
         trailing={trailing}
         currentDrawdown={currentDrawdown}
       />
 
-      <section className="mt-8 rounded-xl border border-zinc-200 bg-white px-6 py-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <section className="mt-8 rounded-xl border border-zinc-200 bg-white px-6 py-5 shadow-sm">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-sm font-semibold text-zinc-700">Equity curve</h2>
-            <div className="mt-1 flex items-center gap-2 text-xs">
-              <span className="text-zinc-500">Live since {liveSince}</span>
+            <h2 className="text-sm font-semibold text-zinc-800">Equity curve</h2>
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+              <span>Live since {liveSince}</span>
+              <span className="hidden text-zinc-400 md:inline">•</span>
+              <span>As of {asOfDate}</span>
               <button
                 type="button"
-                className="text-emerald-600 hover:text-emerald-700"
+                className="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-[11px] font-medium text-zinc-700 hover:bg-zinc-200"
                 onClick={handleResetRange}
               >
-                Reset
+                Reset range
               </button>
             </div>
           </div>
-          <div className="flex gap-4">
-            <div className="text-right">
-              <label className="block text-xs text-zinc-500">From date</label>
+          <div className="flex flex-wrap gap-4">
+            <div className="text-left text-xs">
+              <label className="block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                From date
+              </label>
               <input
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
-                className="mt-1 h-9 rounded-md border border-zinc-200 bg-white px-3 text-xs text-zinc-700 shadow-sm"
+                className="mt-1 h-9 rounded-md border border-zinc-200 bg-white px-3 text-xs text-zinc-700 shadow-sm transition focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
-            <div className="text-right">
-              <label className="block text-xs text-zinc-500">To date</label>
+            <div className="text-left text-xs">
+              <label className="block text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+                To date
+              </label>
               <input
                 type="date"
                 value={asOfDate}
                 onChange={(e) => setToDate(e.target.value)}
-                className="mt-1 h-9 rounded-md border border-zinc-200 bg-white px-3 text-xs text-zinc-700 shadow-sm"
+                className="mt-1 h-9 rounded-md border border-zinc-200 bg-white px-3 text-xs text-zinc-700 shadow-sm transition focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400"
               />
             </div>
           </div>
@@ -122,9 +128,20 @@ export default function PortfoliosPage() {
         </div>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-sm font-semibold text-zinc-700">Monthly returns by year</h2>
-        <MonthlyReturnsTable data={monthlyByYear} />
+      <section className="mt-8 rounded-xl border border-zinc-200 bg-white px-6 py-5 shadow-sm">
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <h2 className="text-sm font-semibold text-zinc-800">
+              Monthly returns by year
+            </h2>
+            <p className="mt-1 text-xs text-zinc-500">
+              Calendar month performance heatmap for the Focused portfolio.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4">
+          <MonthlyReturnsTable data={monthlyByYear} />
+        </div>
       </section>
     </div>
   );

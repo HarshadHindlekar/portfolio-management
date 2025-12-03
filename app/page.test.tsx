@@ -16,5 +16,8 @@ describe("Home page", () => {
 
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Latest Posts")).toBeInTheDocument();
+    expect(screen.getByText("Get started")).toBeInTheDocument();
+    expect(screen.getByText("Community")).toBeInTheDocument();
+    expect(screen.getByText("Visit website")).toBeInTheDocument();
   });
 });

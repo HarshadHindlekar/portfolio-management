@@ -111,7 +111,7 @@ export function TrailingReturnsCard({
   ];
 
   return (
-    <section className="mt-4 rounded-xl border border-zinc-200 bg-white px-6 py-4">
+    <section className="mt-4 rounded-xl border border-zinc-200 bg-white px-6 py-4 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-zinc-700">Trailing Returns</p>
         <button

@@ -39,8 +39,9 @@ describe("Portfolios page", () => {
     render(<PortfoliosPage />);
 
     expect(
-      screen.getByRole("heading", { name: "Trailing Returns" }),
+      screen.getByRole("heading", { name: "Portfolios" }),
     ).toBeInTheDocument();
+    expect(screen.getByText("Trailing Returns")).toBeInTheDocument();
     expect(screen.getByText("Monthly returns by year")).toBeInTheDocument();
   });
 

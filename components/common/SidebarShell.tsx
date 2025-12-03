@@ -25,7 +25,7 @@ export function SidebarShell({ children }: { children: ReactNode }) {
             C
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold">capitalmind</span>
+            <span className="text-sm font-semibold text-gray-800">capitalmind</span>
             <span className="text-xs text-emerald-600">premium</span>
           </div>
         </div>
