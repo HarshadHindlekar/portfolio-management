@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import EquityCurveChart from "@/components/EquityCurveChart";
-import DrawdownChart from "@/components/DrawdownChart";
-import { PageHeader } from "@/components/PageHeader";
-import { TrailingReturnsCard } from "@/components/TrailingReturnsCard";
-import { MonthlyReturnsTable } from "@/components/MonthlyReturnsTable";
+import EquityCurveChart from "@/components/charts/EquityCurveChart";
+import DrawdownChart from "@/components/charts/DrawdownChart";
+import { PageHeader } from "@/components/common/PageHeader";
+import { TrailingReturnsCard } from "@/components/cards/TrailingReturnsCard";
+import { MonthlyReturnsTable } from "@/components/tables/MonthlyReturnsTable";
 import {
   getEquityCurve,
   getMonthlyReturnsByYear,

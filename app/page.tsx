@@ -1,5 +1,5 @@
-import { BlogCard } from "@/components/BlogCard";
-import { PageHeader } from "@/components/PageHeader";
+import { BlogCard } from "@/components/cards/BlogCard";
+import { PageHeader } from "@/components/common/PageHeader";
 import { blogPosts } from "@/data/blogs";
 
 export default function Home() {
