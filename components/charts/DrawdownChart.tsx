@@ -48,14 +48,24 @@ export default function DrawdownChart({ data }: Props) {
       .y0(() => y(0))
       .y1((d: any) => y(d.drawdown))
       .curve(d3.curveMonotoneX);
-
-    svg
+    const areaPath = svg
       .append("path")
       .datum(parsed as any)
       .attr("fill", "#fecaca")
       .attr("stroke", "#f97373")
       .attr("stroke-width", 1.5)
-      .attr("d", area as any);
+      .attr("d", area as any)
+      .attr("opacity", 0);
+
+    if (typeof (areaPath as any).transition === "function") {
+      (areaPath as any)
+        .transition()
+        .duration(600)
+        .ease(d3.easeCubicOut)
+        .attr("opacity", 1);
+    } else {
+      areaPath.attr("opacity", 1);
+    }
 
     const xAxis = d3.axisBottom(x).ticks(6);
     const yAxis = d3
@@ -74,6 +84,24 @@ export default function DrawdownChart({ data }: Props) {
       .attr("transform", `translate(${margin.left},0)`)
       .call(yAxis as any);
 
+    if (typeof (xAxisGroup as any).transition === "function") {
+      (xAxisGroup as any)
+        .attr("opacity", 0)
+        .transition()
+        .duration(350)
+        .delay(200)
+        .attr("opacity", 1);
+    }
+
+    if (typeof (yAxisGroup as any).transition === "function") {
+      (yAxisGroup as any)
+        .attr("opacity", 0)
+        .transition()
+        .duration(350)
+        .delay(200)
+        .attr("opacity", 1);
+    }
+
     xAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
     yAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
 
@@ -81,7 +109,10 @@ export default function DrawdownChart({ data }: Props) {
     yAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
 
     xAxisGroup.selectAll("line").attr("stroke", "#e5e7eb");
-    yAxisGroup.selectAll("line").attr("stroke", "#e5e7eb").attr("stroke-opacity", 0.6);
+    yAxisGroup
+      .selectAll("line")
+      .attr("stroke", "#e5e7eb")
+      .attr("stroke-opacity", 0.6);
   }, [data]);
 
   return (

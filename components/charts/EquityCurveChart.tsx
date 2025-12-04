@@ -56,8 +56,7 @@ export default function EquityCurveChart({ data }: Props) {
       .x((d: any) => x(d.date))
       .y((d: any) => y(d.equity))
       .curve(d3.curveMonotoneX);
-
-    svg
+    const benchmarkPath = svg
       .append("path")
       .datum(benchmark as any)
       .attr("fill", "none")
@@ -67,7 +66,25 @@ export default function EquityCurveChart({ data }: Props) {
       .attr("stroke-linecap", "round")
       .attr("d", line as any);
 
-    svg
+    if (typeof (benchmarkPath as any).node === "function") {
+      const benchmarkNode = (benchmarkPath as any).node() as SVGPathElement | null;
+      if (
+        benchmarkNode &&
+        typeof (benchmarkNode as any).getTotalLength === "function" &&
+        typeof (benchmarkPath as any).transition === "function"
+      ) {
+        const totalLength = benchmarkNode.getTotalLength();
+        (benchmarkPath as any)
+          .attr("stroke-dasharray", totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .duration(700)
+          .ease(d3.easeCubicOut)
+          .attr("stroke-dashoffset", 0);
+      }
+    }
+
+    const equityPath = svg
       .append("path")
       .datum(parsed as any)
       .attr("fill", "none")
@@ -76,6 +93,24 @@ export default function EquityCurveChart({ data }: Props) {
       .attr("stroke-linejoin", "round")
       .attr("stroke-linecap", "round")
       .attr("d", line as any);
+
+    if (typeof (equityPath as any).node === "function") {
+      const equityNode = (equityPath as any).node() as SVGPathElement | null;
+      if (
+        equityNode &&
+        typeof (equityNode as any).getTotalLength === "function" &&
+        typeof (equityPath as any).transition === "function"
+      ) {
+        const totalLength = equityNode.getTotalLength();
+        (equityPath as any)
+          .attr("stroke-dasharray", totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .duration(900)
+          .ease(d3.easeCubicOut)
+          .attr("stroke-dashoffset", 0);
+      }
+    }
 
     const xAxis = d3.axisBottom(x).ticks(6);
     const yAxis = d3.axisLeft(y).ticks(5).tickSize(-innerWidth);
@@ -90,6 +125,24 @@ export default function EquityCurveChart({ data }: Props) {
       .attr("transform", `translate(${margin.left},0)`)
       .call(yAxis as any);
 
+    if (typeof (xAxisGroup as any).transition === "function") {
+      (xAxisGroup as any)
+        .attr("opacity", 0)
+        .transition()
+        .duration(400)
+        .delay(250)
+        .attr("opacity", 1);
+    }
+
+    if (typeof (yAxisGroup as any).transition === "function") {
+      (yAxisGroup as any)
+        .attr("opacity", 0)
+        .transition()
+        .duration(400)
+        .delay(250)
+        .attr("opacity", 1);
+    }
+
     xAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
     yAxisGroup.selectAll("text").attr("fill", "#a1a1aa").attr("font-size", 10);
 
@@ -97,7 +150,10 @@ export default function EquityCurveChart({ data }: Props) {
     yAxisGroup.selectAll("path").attr("stroke", "#e5e7eb");
 
     xAxisGroup.selectAll("line").attr("stroke", "#e5e7eb");
-    yAxisGroup.selectAll("line").attr("stroke", "#e5e7eb").attr("stroke-opacity", 0.6);
+    yAxisGroup
+      .selectAll("line")
+      .attr("stroke", "#e5e7eb")
+      .attr("stroke-opacity", 0.6);
   }, [data]);
 
   return (
